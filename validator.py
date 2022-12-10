@@ -67,7 +67,7 @@ def validate(deckListString):
             if not hasBeforeBanList:
                 invalidResponses.append(c + " is too new.")
         except:
-            print("API error for " + c)
+            invalidResponses.append("API error for " + c + ". Manually see if this meets the requirements")
 
     # check if any cards are not valid per the banlist
     for c in deckList:
