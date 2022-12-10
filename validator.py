@@ -35,7 +35,7 @@ def parseDeckListDB():
                     deckList.update({cardName : 1})
                 else:
                     deckList.update({cardName : deckList[cardName] + 1})
-            except:
+            except KeyError:
                 print("API request failed for " + line)
 
     return deckList
