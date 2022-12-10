@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <h4>Yu-Gi-Oh Validator</h4>
+    </head>
+    <body>
+        <form type="text" action="/validate" method="POST" id="deckForm">
+            <label for="decklist">DeckList:</label>
+            <textarea id="decklist" name="decklist" form="deckForm"></textarea>
+            <input type="submit" value="Submit">
+        </form>
+        {% if responses %}
+        <p>{{content}}</p>
+        <ul>
+            {% for r in responses %}
+            <li>{{r}}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if valid %}
+        <p>Your deck is valid</p>
+        {% endif %}
+    </body>
+</html> 
