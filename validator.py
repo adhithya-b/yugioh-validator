@@ -28,12 +28,16 @@ def parseDeckListDB():
     for line in f:
         line = line.strip()
         if line[0] != "#" and line[0] != "!":
-            cardData = json.loads(requests.get(baseUrl + "/cardinfo.php?id=" + line).text)["data"][0]
-            cardName = cardData["name"]
-            if cardName not in deckList:
-                deckList.update({cardName : 1})
-            else:
-                deckList.update({cardName : deckList[cardName] + 1})
+            try:
+                cardData = json.loads(requests.get(baseUrl + "/cardinfo.php?id=" + line).text)["data"][0]
+                cardName = cardData["name"]
+                if cardName not in deckList:
+                    deckList.update({cardName : 1})
+                else:
+                    deckList.update({cardName : deckList[cardName] + 1})
+            except:
+                print("API request failed for " + line)
+
     return deckList
 
 # parse the banlist file
