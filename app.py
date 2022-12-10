@@ -10,7 +10,6 @@ def index():
 @app.route("/validate", methods=['POST'])
 def checkDeck():
     resp = validate(request.form['decklist'])
-    print(resp)
     if resp:
         return render_template('home.html', responses=resp)
     else:

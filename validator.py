@@ -12,7 +12,6 @@ def parseDeckListEDO(deckListString):
     deckList = {}
     deckListString = deckListString.split("\n")
     for line in deckListString:
-        print(line)
         line = line.strip()
         if line != "\n" and line != "" and line not in categories:
             temp = ""
