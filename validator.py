@@ -28,16 +28,12 @@ def parseDeckListDB():
     for line in f:
         line = line.strip()
         if line[0] != "#" and line[0] != "!":
-            try:
-                cardData = json.loads(requests.get(baseUrl + "/cardinfo.php?id=" + line).text)["data"][0]
-                cardName = cardData["name"]
-                if cardName not in deckList:
-                    deckList.update({cardName : 1})
-                else:
-                    deckList.update({cardName : deckList[cardName] + 1})
-            except KeyError:
-                print("API request failed for " + line)
-
+            cardData = json.loads(requests.get(baseUrl + "/cardinfo.php?id=" + line).text)["data"][0]
+            cardName = cardData["name"]
+            if cardName not in deckList:
+                deckList.update({cardName : 1})
+            else:
+                deckList.update({cardName : deckList[cardName] + 1})
     return deckList
 
 # parse the banlist file
@@ -60,15 +56,18 @@ def validate(deckListString):
 
     # check if any cards were not released before the finalDate
     for c in deckList:
-        jsonData = json.loads(requests.get(baseUrl + "/cardinfo.php?name=" + c).text)["data"][0]
-        hasBeforeBanList = False
-        for s in jsonData["card_sets"]:
-            curDate = datetime.datetime.strptime(setList[s["set_name"]], "%Y-%m-%d")
-            if(curDate < finalDate):
-                hasBeforeBanList = True
-                break
-        if not hasBeforeBanList:
-            invalidResponses.append(c + " is too new.")
+        try: 
+            jsonData = json.loads(requests.get(baseUrl + "/cardinfo.php?name=" + c).text)["data"][0]
+            hasBeforeBanList = False
+            for s in jsonData["card_sets"]:
+                curDate = datetime.datetime.strptime(setList[s["set_name"]], "%Y-%m-%d")
+                if(curDate < finalDate):
+                    hasBeforeBanList = True
+                    break
+            if not hasBeforeBanList:
+                invalidResponses.append(c + " is too new.")
+        except:
+            print("API error for " + c)
 
     # check if any cards are not valid per the banlist
     for c in deckList:
