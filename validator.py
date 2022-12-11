@@ -17,7 +17,7 @@ def parseDeckListEDO(deckListString):
             temp = ""
             for x in line.split()[:-1]:
                 temp += x + " "
-            count = int(line.split()[-1][-1])
+            count = int(line.split()[-1][1:])
             deckList.update({temp[:-1] : count})
     return deckList
 

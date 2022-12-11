@@ -14,11 +14,13 @@ def index():
                 f.save(f.filename)
                 resp = validate(request.form['deckType'], deckFile=f.filename)
                 os.remove(f.filename)
+        else:
+            return render_template('home.html', status="Input is faulty.")
 
         if resp:
             return render_template('home.html', responses=resp)
         else:
-            return render_template('home.html', valid="True")
+            return render_template('home.html', status="Your deck is valid.")
     else:
         return render_template('home.html')
 
