@@ -87,10 +87,6 @@ def validate(deckType, deckListString="", deckFile=None):
             invalidResponses.append(c + " is at 3 copies. You have " + str(deckList[c]) + " copies.")
         elif c in banList and deckList[c] > banList[c]:
             invalidResponses.append(c + " is " + amount[banList[c]] + ". You have " + str(deckList[c]) + " copies.")
-    if total < 40:
-        invalidResponses.append("You have less than 40 cards in this deck.")
-    if total > 60:
-        invalidResponses.append("You have more than 60 cards in this deck.")
 
 
     return invalidResponses
