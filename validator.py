@@ -75,10 +75,17 @@ def validate(deckType, deckListString="", deckFile=None):
             invalidResponses.append("API error for " + c + ". Manually see if this meets the requirements.")
 
     # check if any cards are not valid per the banlist
+    total = 0
     for c in deckList:
+        total += deckList[c]
         if deckList[c] > 3:
             invalidResponses.append(c + " is at 3 copies. You have " + str(deckList[c]) + " copies.")
         elif c in banList and deckList[c] > banList[c]:
             invalidResponses.append(c + " is " + amount[banList[c]] + ". You have " + str(deckList[c]) + " copies.")
-    
+    if total < 40:
+        invalidResponses.append("You have less than 40 cards in this deck.")
+    if total > 60:
+        invalidResponses.append("You have more than 60 cards in this deck.")
+
+
     return invalidResponses
