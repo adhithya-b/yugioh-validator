@@ -4,10 +4,21 @@
         <h4>Yu-Gi-Oh Validator</h4>
     </head>
     <body>
-        <form type="text" action="/validate" method="POST" id="deckForm">
-            <label for="decklist">DeckList:</label>
-            <textarea id="decklist" name="decklist" form="deckForm"></textarea>
-            <input type="submit" value="Submit">
+        <form type="text" action="/home" method="POST" enctype="multipart/form-data" id="deckForm">
+            <input type="radio" id="edoproButton" name="deckType" value="edopro">EDOPro
+            <input type="radio" id="duelingbookButton" name="deckType" value="duelingbook">Duelingbook
+            
+            <div id="edoproDiv" name="edoproDiv" style="display:none;">
+                <label for="decklist">DeckList: </label>
+                <textarea id="decklist" name="decklist" form="deckForm"></textarea>
+                <input type="submit" value="Submit">
+            </div>
+
+            <div id="dbDiv" name="dbDiv" style="display:none;">
+                <label for="dbFile">YDK File: </label>
+                <input type="file" id="dbFile" name="dbFile">
+                <input type="submit" value="Upload">
+            </div>
         </form>
         {% if responses %}
         <p>{{content}}</p>
@@ -18,7 +29,23 @@
         </ul>
         {% endif %}
         {% if valid %}
-        <p>Your deck is valid</p>
+        <p>Your deck is valid.</p>
         {% endif %}
     </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+                $('input[type="radio"]').click(function() {
+                    var inputValue = $(this).attr("value");
+                    console.log(inputValue)
+                    if(inputValue === "edopro") {
+                        $("#edoproDiv").show();
+                        $("#dbDiv").hide();
+                    } else if(inputValue === "duelingbook") {
+                        $("#edoproDiv").hide();
+                        $("#dbDiv").show();
+                    }
+                });
+            });
+    </script>
 </html> 

@@ -22,9 +22,9 @@ def parseDeckListEDO(deckListString):
     return deckList
 
 # parsing DuelingBook decklists
-def parseDeckListDB():
+def parseDeckListDB(deckFile):
     deckList = {}
-    f = open("db.txt", "r")
+    f = open(deckFile, "r")
     for line in f:
         line = line.strip()
         if line[0] != "#" and line[0] != "!":
@@ -47,10 +47,15 @@ def parseBanList():
     return banList
 
 
-def validate(deckListString):
+def validate(deckType, deckListString="", deckFile=None):
     # build dictionaries of the necessary data
     invalidResponses = []
-    deckList = parseDeckListEDO(deckListString)
+
+    deckList = {}
+    if deckType == "edopro":
+        deckList = parseDeckListEDO(deckListString)
+    elif deckType == "duelingbook":
+        deckList = parseDeckListDB(deckFile)
     setList = {x["set_name"] : x["tcg_date"] for x in json.loads(requests.get(baseUrl + "/cardsets.php").text) if "tcg_date" in x}  
     banList = parseBanList()
 
@@ -67,7 +72,7 @@ def validate(deckListString):
             if not hasBeforeBanList:
                 invalidResponses.append(c + " is too new.")
         except:
-            invalidResponses.append("API error for " + c + ". Manually see if this meets the requirements")
+            invalidResponses.append("API error for " + c + ". Manually see if this meets the requirements.")
 
     # check if any cards are not valid per the banlist
     for c in deckList:
