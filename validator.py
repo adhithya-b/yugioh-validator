@@ -1,6 +1,7 @@
 import requests
 import json
 import datetime
+import re
 
 baseUrl = "https://db.ygoprodeck.com/api/v7"
 finalDate = datetime.datetime(2014, 1, 1)
@@ -13,6 +14,8 @@ def parseDeckListEDO(deckListString):
     deckListString = deckListString.split("\n")
     for line in deckListString:
         line = line.strip()
+        if not re.match("^.*\\sx[1-3]$", line):
+            return None
         if line != "\n" and line != "" and line not in categories:
             temp = ""
             for x in line.split()[:-1]:
@@ -54,6 +57,8 @@ def validate(deckType, deckListString="", deckFile=None):
     deckList = {}
     if deckType == "edopro":
         deckList = parseDeckListEDO(deckListString)
+        if deckList == None:
+            return ["Invalid text input."]
     elif deckType == "duelingbook":
         deckList = parseDeckListDB(deckFile)
     setList = {x["set_name"] : x["tcg_date"] for x in json.loads(requests.get(baseUrl + "/cardsets.php").text) if "tcg_date" in x}  
