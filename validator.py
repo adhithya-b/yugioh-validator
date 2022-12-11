@@ -14,9 +14,9 @@ def parseDeckListEDO(deckListString):
     deckListString = deckListString.split("\n")
     for line in deckListString:
         line = line.strip()
-        if not re.match("^.*\\sx[1-3]$", line):
-            return None
         if line != "\n" and line != "" and line not in categories:
+            if not re.match("^.*\\sx[1-3]$", line):
+                return None
             temp = ""
             for x in line.split()[:-1]:
                 temp += x + " "
