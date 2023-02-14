@@ -1,10 +1,8 @@
 import "./Edopro.css";
 import React, { useState } from "react";
-import Validations from "../validations/Validations";
 
-function Edopro() {
+function Edopro(props) {
   const [textValue, setTextValue] = useState("");
-  const [data, setData] = useState([]);
   const handleTextChange = (event) => {
     setTextValue(event.target.value);
   };
@@ -22,7 +20,7 @@ function Edopro() {
       }),
     })
       .then((response) => response.json())
-      .then((data) => setData(data))
+      .then((data) => props.setData(data))
       .catch((error) => console.error(error));
   };
 
@@ -66,8 +64,6 @@ function Edopro() {
           </button>
         </form>
       </div>
-
-      <Validations strings={data} />
     </div>
   );
 }

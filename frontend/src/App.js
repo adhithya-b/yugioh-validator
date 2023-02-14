@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import "./App.css";
 import Duelingbook from "./components/duelingbook/Duelingbook";
 import Edopro from "./components/edopro/Edopro";
+import Validations from "./components/validations/Validations";
 
 function App() {
   const [selectedButton, setSelectedButton] = useState("");
+  const [data, setData] = useState([]);
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className="text-3xl font-bold underline">Yu-Gi-Oh Validator</h1>
+        <h1 className="text-5xl font-bold underline">Yu-Gi-Oh Validator</h1>
 
         <div className="App-buttons">
           <div class="inline-flex">
@@ -36,9 +38,10 @@ function App() {
           </div>
         </div>
 
-        {selectedButton === "edo" && <Edopro />}
+        {selectedButton === "edo" && <Edopro setData={setData}/>}
+        {selectedButton === "db" && <Duelingbook setData={setData}/>}
 
-        {selectedButton === "db" && <Duelingbook />}
+        {data.length != 0 && <Validations strings={data}/>}
       </header>
     </div>
   );
