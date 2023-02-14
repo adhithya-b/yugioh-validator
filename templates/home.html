@@ -1,12 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
     <head>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+        <script>
+            tailwind.config = {
+              theme: {
+                extend: {
+                  colors: {
+                    clifford: '#da373d',
+                  }
+                }
+              }
+            }
+          </script>
+            <style type="text/tailwindcss">
+                @layer utilities {
+                  .content-auto {
+                    content-visibility: auto;
+                  }
+                }
+              </style>
         <h4>Yu-Gi-Oh Validator</h4>
     </head>
     <body>
         <form type="text" action="/home" method="POST" enctype="multipart/form-data" id="deckForm">
-            <input type="radio" id="edoproButton" name="deckType" value="edopro">EDOPro
-            <input type="radio" id="duelingbookButton" name="deckType" value="duelingbook">Duelingbook
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                id="edoproButton" name="deckType" value="edopro">
+                EDOPro
+            </button>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                id="duelingbookButton" name="deckType" value="duelingbook" onClick="showDiv">
+                Duelingbook
+            </button>
             
             <div id="edoproDiv" name="edoproDiv" style="display:none;">
                 <label for="decklist">DeckList: </label>
@@ -47,5 +72,9 @@
                     }
                 });
             });
+
+        showDiv = (event) => {
+            console.log(event)
+        }
     </script>
 </html> 
