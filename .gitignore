@@ -9,8 +9,8 @@ frontend/.pnp.js
 
 # testing
 frontend/coverage
-frontend
-frontend# production
+
+# production
 frontend/build
 
 # misc
