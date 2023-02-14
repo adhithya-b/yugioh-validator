@@ -3,12 +3,8 @@ from validator import validate
 from flask_cors import CORS
 import os
 
-app = Flask(__name__, static_folder='build', template_folder='build', static_url_path='/')
+app = Flask(__name__, static_folder='frontend/build', template_folder='frontend/build', static_url_path='/')
 CORS(app)
-
-@app.route("/test", methods=['GET', 'POST'])
-def test():
-    return {'message': 'test'}
 
 @app.route("/")
 def index():
