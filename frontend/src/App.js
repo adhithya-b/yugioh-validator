@@ -21,7 +21,10 @@ function App() {
                   ? "bg-blue-700 text-white font-bold py-2 px-4 rounded-l"
                   : "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-l"
               }
-              onClick={() => setSelectedButton("edo")}
+              onClick={() => {
+                setData([]);
+                setSelectedButton("edo");
+              }}
             >
               EDOPro
             </button>
@@ -31,17 +34,20 @@ function App() {
                   ? "bg-blue-700 text-white font-bold py-2 px-4 rounded-r"
                   : "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r"
               }
-              onClick={() => setSelectedButton("db")}
+              onClick={() => {
+                setData([]);
+                setSelectedButton("db");
+              }}
             >
               Duelingbook
             </button>
           </div>
         </div>
 
-        {selectedButton === "edo" && <Edopro setData={setData}/>}
-        {selectedButton === "db" && <Duelingbook setData={setData}/>}
+        {selectedButton === "edo" && <Edopro setData={setData} />}
+        {selectedButton === "db" && <Duelingbook setData={setData} />}
 
-        {data.length != 0 && <Validations strings={data}/>}
+        {data.length != 0 && <Validations strings={data} />}
       </header>
     </div>
   );
