@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import "./Validations.css";
+import LoadingSpinner from "../utils/LoadingSpinner/LoadingSpinner";
 
 function Validations(props) {
+  console.log("here1");
+  console.log(props.loading);
+  console.log("here2");
   const [clicked, setClicked] = useState("Copy");
 
-  const copyListToClipboard = () => {
-    const textToCopy = props.strings.join("\n");
-    navigator.clipboard.writeText(textToCopy);
-    setClicked("Copied!");
-  };
-
-  return (
+  const ValidationList = () => (
     <div>
       <div className="List-div">
         <ul class="text-gray-500 list-disc list-inside dark:text-gray-400">
@@ -19,14 +17,26 @@ function Validations(props) {
           ))}
         </ul>
       </div>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded-full"
-        onClick={copyListToClipboard}
-      >
-        {clicked}
-      </button>
+      {props.strings.length === 0 ? (
+        <p></p>
+      ) : (
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded-full"
+          onClick={copyListToClipboard}
+        >
+          {clicked}
+        </button>
+      )}
     </div>
   );
+
+  const copyListToClipboard = () => {
+    const textToCopy = props.strings.join("\n");
+    navigator.clipboard.writeText(textToCopy);
+    setClicked("Copied!");
+  };
+
+  return <div>{props.loading ? <LoadingSpinner /> : <ValidationList />}</div>;
 }
 
 export default Validations;

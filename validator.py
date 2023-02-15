@@ -68,19 +68,22 @@ def validate(deckType, deckListString="", deckFile=None):
     for c in deckList:
         try: 
             releaseDate = datetime.datetime.max
-            jsonData = json.loads(requests.get(baseUrl + "/cardinfo.php?name=" + c).text)["data"][0]
+            urlName = c.replace("&", "%26")
+            jsonData = json.loads(requests.get(baseUrl + "/cardinfo.php?name=" + urlName).text)["data"][0]
             hasBeforeBanList = False
             for s in jsonData["card_sets"]:
-                curDate = datetime.datetime.strptime(setList[s["set_name"]], "%Y-%m-%d")
-                releaseDate = curDate if curDate < releaseDate else releaseDate
-                if(curDate < finalDate):
-                    hasBeforeBanList = True
-                    break
+                dateString = setList.get(s.get("set_name"))
+                if dateString:
+                    curDate = datetime.datetime.strptime(dateString, "%Y-%m-%d")
+                    releaseDate = curDate if curDate < releaseDate else releaseDate
+                    if(curDate < finalDate):
+                        hasBeforeBanList = True
+                        break
             if not hasBeforeBanList:
                 releaseDate = releaseDate.strftime("%Y-%m-%d")
                 invalidResponses.append("{} is too new. This card came out in {}.".format(c, releaseDate))
         except Exception as e:
-            print(str(e))
+            print(e)
             invalidResponses.append("API error for " + c + ". Manually see if this meets the requirements.")
 
     # check if any cards are not valid per the banlist

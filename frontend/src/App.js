@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import "./App.css";
 import Duelingbook from "./components/duelingbook/Duelingbook";
 import Edopro from "./components/edopro/Edopro";
-import Validations from "./components/validations/Validations";
 
 function App() {
   const [selectedButton, setSelectedButton] = useState("");
-  const [data, setData] = useState([]);
 
   return (
     <div className="App">
@@ -22,7 +20,6 @@ function App() {
                   : "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-l"
               }
               onClick={() => {
-                setData([]);
                 setSelectedButton("edo");
               }}
             >
@@ -35,7 +32,6 @@ function App() {
                   : "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r"
               }
               onClick={() => {
-                setData([]);
                 setSelectedButton("db");
               }}
             >
@@ -44,10 +40,8 @@ function App() {
           </div>
         </div>
 
-        {selectedButton === "edo" && <Edopro setData={setData} />}
-        {selectedButton === "db" && <Duelingbook setData={setData} />}
-
-        {data.length != 0 && <Validations strings={data} />}
+        {selectedButton === "edo" && <Edopro />}
+        {selectedButton === "db" && <Duelingbook />}
       </header>
     </div>
   );

@@ -8,12 +8,10 @@ app = Flask(__name__, static_folder='frontend/build', static_url_path='')
 
 @app.route("/", defaults={'path':''})
 def index(path):
-    print("displaying index.html")
     return app.send_static_file('index.html')
 
 @app.route("/validateDeck", methods=['POST'])
 def validateDeck():
-    print("validating deck")
     resp = []
     data = request.get_json()
     if data['deckType'] == 'edopro':

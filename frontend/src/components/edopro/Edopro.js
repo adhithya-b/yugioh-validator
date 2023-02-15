@@ -1,13 +1,19 @@
 import "./Edopro.css";
 import React, { useState } from "react";
+import Validations from "../validations/Validations";
 
-function Edopro(props) {
+function Edopro() {
   const [textValue, setTextValue] = useState("");
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const handleTextChange = (event) => {
     setTextValue(event.target.value);
   };
 
   const handleSubmit = (event) => {
+    setLoading(true);
+    setData([]);
     event.preventDefault();
     fetch("/validateDeck", {
       method: "POST",
@@ -20,7 +26,8 @@ function Edopro(props) {
       }),
     })
       .then((response) => response.json())
-      .then((data) => props.setData(data))
+      .then((data) => setData(data))
+      .then(() => setLoading(false))
       .catch((error) => console.error(error));
   };
 
@@ -64,6 +71,8 @@ function Edopro(props) {
           </button>
         </form>
       </div>
+
+      <Validations strings={data} loading={loading}/>
     </div>
   );
 }
