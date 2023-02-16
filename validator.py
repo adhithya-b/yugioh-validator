@@ -4,7 +4,6 @@ import datetime
 import re
 
 baseUrl = "https://db.ygoprodeck.com/api/v7"
-finalDate = datetime.datetime(2014, 1, 1)
 amount = ["banned", "limited", "semi-limited"]
 
 # parsing EDOPro decklists
@@ -40,9 +39,10 @@ def parseDeckListDB(deckFile):
     return deckList
 
 # parse the banlist file
-def parseBanList():
+def parseBanList(banlist):
     banList = {}
-    f = open("banlist.txt", "r")
+    filename = "./banlists/" + banlist + ".txt"
+    f = open(filename, "r")
     for line in f:
         line = line.strip()
         vals = line.split("=")
@@ -50,10 +50,9 @@ def parseBanList():
     return banList
 
 
-def validate(deckType, deckListString="", deckFile=None):
+def validate(deckType, banlist="", deckListString="", deckFile=None):
     # build dictionaries of the necessary data
     invalidResponses = []
-
     deckList = {}
     if deckType == "edopro":
         deckList = parseDeckListEDO(deckListString)
@@ -62,9 +61,10 @@ def validate(deckType, deckListString="", deckFile=None):
     elif deckType == "duelingbook":
         deckList = parseDeckListDB(deckFile)
     setList = {x["set_name"] : x["tcg_date"] for x in json.loads(requests.get(baseUrl + "/cardsets.php").text) if "tcg_date" in x}  
-    banList = parseBanList()
+    banList = parseBanList(banlist)
 
     # check if any cards were not released before the finalDate
+    finalDate = datetime.datetime.strptime(banlist, "%Y-%m-%d")
     for c in deckList:
         try: 
             releaseDate = datetime.datetime.max

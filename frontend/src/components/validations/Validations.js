@@ -3,9 +3,6 @@ import "./Validations.css";
 import LoadingSpinner from "../utils/LoadingSpinner/LoadingSpinner";
 
 function Validations(props) {
-  console.log("here1");
-  console.log(props.loading);
-  console.log("here2");
   const [clicked, setClicked] = useState("Copy");
 
   const ValidationList = () => (

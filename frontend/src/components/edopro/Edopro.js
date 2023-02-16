@@ -1,34 +1,43 @@
 import "./Edopro.css";
 import React, { useState } from "react";
 import Validations from "../validations/Validations";
+import BanlistDropdown from "../utils/BanlistDropdown/BanlistDropdown";
 
 function Edopro() {
   const [textValue, setTextValue] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [banlist, setBanlist] = useState("");
 
   const handleTextChange = (event) => {
     setTextValue(event.target.value);
   };
 
   const handleSubmit = (event) => {
-    setLoading(true);
-    setData([]);
-    event.preventDefault();
-    fetch("/validateDeck", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        deckType: "edopro",
-        decklist: textValue,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => setData(data))
-      .then(() => setLoading(false))
-      .catch((error) => console.error(error));
+    if (banlist === "") {
+      event.preventDefault();
+      alert("Please select a banlist before submitting.");
+    } else {
+      console.log(banlist);
+      setLoading(true);
+      setData([]);
+      event.preventDefault();
+      fetch("/validateDeck", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          deckType: "edopro",
+          decklist: textValue,
+          banlist: banlist,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => setData(data))
+        .then(() => setLoading(false))
+        .catch((error) => console.error(error));
+    }
   };
 
   return (
@@ -62,6 +71,7 @@ function Edopro() {
             onChange={handleTextChange}
           ></textarea>
 
+          <BanlistDropdown setBanlist={setBanlist} />
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded-full"
             type="submit"
@@ -72,7 +82,7 @@ function Edopro() {
         </form>
       </div>
 
-      <Validations strings={data} loading={loading}/>
+      <Validations strings={data} loading={loading} />
     </div>
   );
 }

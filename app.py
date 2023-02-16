@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from validator import validate
 from flask_cors import CORS
+import re
 import os
 
 app = Flask(__name__, static_folder='frontend/build', static_url_path='')
@@ -15,7 +16,7 @@ def validateDeck():
     resp = []
     data = request.get_json()
     if data['deckType'] == 'edopro':
-        resp = validate(data['deckType'], deckListString=data['decklist'])
+        resp = validate(data['deckType'], banlist=data['banlist'], deckListString=data['decklist'])
     elif data['deckType'] == 'duelingbook':
         f = request.files['dbFile']
         if f:
@@ -30,6 +31,21 @@ def validateDeck():
         return resp
     else:
         return ["Your deck is valid."]
+
+@app.route('/getBanlists')
+def get_dates():
+    folder_path = './banlists'
+    filenames = os.listdir(folder_path)
+    dates = []
+
+    for filename in filenames:
+        match = re.search(r'\d{4}-\d{2}-\d{2}', filename)
+        if match:
+            date_str = match.group()
+            dates.append(date_str)
+
+    return jsonify(dates)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
