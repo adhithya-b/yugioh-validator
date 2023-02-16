@@ -11,6 +11,7 @@ function BanlistDropdown(props) {
     fetch("/getBanlists")
       .then((response) => response.json())
       .then((dates) => {
+        dates = dates.sort((a, b) => new Date(a) - new Date(b));
         const datesByYearObj = {};
         dates.forEach((dateStr) => {
           const year = dateStr.substr(0, 4);
