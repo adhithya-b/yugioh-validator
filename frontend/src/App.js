@@ -23,7 +23,7 @@ function App() {
                 setSelectedButton("edo");
               }}
             >
-              EDOPro
+              Text Entry
             </button>
             <button
               className={
@@ -35,7 +35,7 @@ function App() {
                 setSelectedButton("db");
               }}
             >
-              Duelingbook
+              YDK File
             </button>
           </div>
         </div>

@@ -1,7 +1,10 @@
 import "./Edopro.css";
 import React, { useState } from "react";
 import Validations from "../validations/Validations";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import BanlistDropdown from "../utils/BanlistDropdown/BanlistDropdown";
+import "react-tooltip/dist/react-tooltip.css";
+import { AiFillQuestionCircle } from "react-icons/ai";
 
 function Edopro() {
   const [textValue, setTextValue] = useState("");
@@ -40,13 +43,24 @@ function Edopro() {
     }
   };
 
+  const Title = () => {
+    return <h3 className="flex justify-around"><p>Enter Decklist</p><AiFillQuestionCircle id="header" className={"mt-2 ml-2"}/></h3>
+  }
+
   return (
     <div>
       <div class="flex justify-center">
         <form class="mb-3 xl:w-96" onSubmit={handleSubmit}>
-          <label class="form-label inline-block mb-2 text-white">
-            Enter Decklist:
-          </label>
+          <div class="form-label inline-block mb-2 text-white">
+            <Title />
+          </div>
+          <ReactTooltip
+            anchorId="header"
+            place="bottom"
+            variant="info"
+            className={"tooltip"}
+            html='Enter a card name followed by the number of cards, ex: "Pot of Greed x3".<br />You can also use EDOPro to paste your deck list.<br />Go to Decks > YDKE > Export Plaintext'
+          />
           <textarea
             class="
                 form-control
